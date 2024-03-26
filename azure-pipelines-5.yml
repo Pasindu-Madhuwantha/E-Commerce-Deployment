@@ -1,0 +1,16 @@
+# Pipeline for pulling from Docker Hub and pushing to Azure Container Registry
+trigger:
+- none  # This pipeline won't trigger automatically
+
+jobs:
+- job: Pull_and_Push_to_ACR
+  displayName: 'Pull Docker image from Docker Hub and push to Azure Container Registry'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: |
+      docker pull docker777/pasindu1952/ecommerce:$(Build.BuildId)
+      az acr login --name docker8888
+      docker tag docker777/pasindu1952/ecommerce:$(Build.BuildId) docker8888.azurecr.io/ecommerce:$(Build.BuildId)
+      docker push docker8888.azurecr.io/ecommerce:$(Build.BuildId)
+    displayName: 'Pull from Docker Hub and push to Azure Container Registry'
