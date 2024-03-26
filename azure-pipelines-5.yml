@@ -9,8 +9,10 @@ jobs:
     vmImage: 'ubuntu-latest'
   steps:
   - script: |
-      docker pull docker777/pasindu1952/ecommerce:$(Build.BuildId)
+      docker pull docker777/pasindu1952/ecommerce:13:$(Build.BuildId)
       az acr login --name docker8888
       docker tag docker777/pasindu1952/ecommerce:$(Build.BuildId) docker8888.azurecr.io/ecommerce:$(Build.BuildId)
       docker push docker8888.azurecr.io/ecommerce:$(Build.BuildId)
     displayName: 'Pull from Docker Hub and push to Azure Container Registry'
+
+
