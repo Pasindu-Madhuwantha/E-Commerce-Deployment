@@ -13,3 +13,5 @@ jobs:
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
       tags: '$(Build.BuildId)'
+      
+  - task: PublishBuildArtifacts@1
