@@ -25,7 +25,7 @@ stages:
         Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
         tags: |
-          dev-latest
+          $(tag)
           $(Build.BuildNumber)
           $(Build.BuildId)
     - task: Bash@3
