@@ -18,9 +18,9 @@ stages:
     steps:
     - task: Docker@2
       inputs:
+        command: 'build'
         containerRegistry: 'docker777'
         repository: 'pasindu1952/ecommerce'
-        command: 'build'
         Dockerfile: '**/Dockerfile'
         tags: |
             $(tag)
