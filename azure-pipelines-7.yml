@@ -1,3 +1,7 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
 trigger:
 - main
 
@@ -6,7 +10,6 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
-  dockerImageName: 'mydockerimage'  # Change this to match your Docker image name
 
 stages:
 - stage: Build
@@ -25,12 +28,12 @@ stages:
         tags: |
           $(tag)
 
-    - script: |
-        docker save -o $(Build.ArtifactStagingDirectory)/$(dockerImageName).tar $(dockerImageName):$(tag)
-      displayName: 'Save Docker image as tarball'
+    - task: CopyFiles@2
+      inputs:
+        sourceFolder: '$(Build.ArtifactStagingDirectory)'
+        targetFolder: '$(build.artifactstagingdirectory)'
 
     - task: PublishBuildArtifacts@1    
-      displayName: 'Publish Artifact: dockerimage'
+      displayName: 'Publish Artifact: drop'
       inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'dockerimage'
+          PathtoPublish: '$(build.artifactstagingdirectory)'
