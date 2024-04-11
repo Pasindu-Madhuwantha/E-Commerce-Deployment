@@ -22,7 +22,7 @@ stages:
         containerRegistry: 'docker777'
         repository: 'pasindu1952/ecommerce:47'
         command: 'build'
-        Dockerfile: '$(Build.SourcesDirectory)/PathTo/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
         tags: |
           dev-latest
