@@ -20,7 +20,7 @@ stages:
       displayName: Build
       inputs:
         containerRegistry: 'docker777'
-        repository: 'pasindu1952/ecommerce:47'
+        repository: 'pasindu1952/ecommerce'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/**/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
@@ -33,7 +33,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          docker save -o $(Build.ArtifactStagingDirectory)/image.tar image:$(Build.BuildNumber)
+          docker save -o $(Build.ArtifactStagingDirectory)/image.tar pasindu1952/ecommerce:$(Build.BuildNumber)
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/image.tar'
