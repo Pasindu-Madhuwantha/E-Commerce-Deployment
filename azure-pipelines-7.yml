@@ -17,12 +17,25 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
+      displayName: Build
       inputs:
-        command: 'build'
         containerRegistry: 'docker777'
-        repository: 'pasindu1952/ecommerce'
-        Dockerfile: '**/Dockerfile'
+        repository: 'pasindu1952/ecommerce:47'
+        command: 'build'
+        Dockerfile: '$(Build.SourcesDirectory)/PathTo/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
         tags: |
-            $(tag)
-
-
+          dev-latest
+          $(Build.BuildNumber)
+          $(Build.BuildId)
+    - task: Bash@3
+      displayName: Save Docker Image
+      inputs:
+        targetType: 'inline'
+        script: |
+          docker save -o $(Build.ArtifactStagingDirectory)/image.tar image:$(Build.BuildNumber)
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/image.tar'
+        artifact: 'my-artifact'
+        publishLocation: 'pipeline'
