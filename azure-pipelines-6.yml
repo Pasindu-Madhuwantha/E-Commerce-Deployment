@@ -10,13 +10,15 @@ jobs:
     inputs:
       SonarCloud: 'Sonar_CTSE'
       organization: 'pasindu-madhuwantha'
-      scannerMode: 'MSBuild'
-      projectKey: 'Pasindu-Madhuwantha_E-Commerce-Deployment'
-      projectName: 'E-Commerce-Deployment'
-      
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'Pasindu-Madhuwantha_E-Commerce-Deployment'
+      cliProjectName: 'E-Commerce-Deployment'
+      cliSources: '.'
+
   - task: SonarCloudAnalyze@1
     inputs:
-      jdkversion: 'JAVA_HOME_17_X64'
+      jdkVersion: 'JAVA_HOME_17_X64'
 
   - task: SonarCloudPublish@1
     inputs:
@@ -26,6 +28,7 @@ jobs:
   displayName: 'Save repository as artifact'
   pool:
     vmImage: 'ubuntu-latest'
+  dependsOn: Sonar_Cloud_Analysis
   steps:
   - checkout: self
   
