@@ -1,16 +1,39 @@
 jobs:
+- job: Sonar_Cloud_Analysis
+  displayName: 'Running Sonar Cloud Analysis'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - checkout: self
+  
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'Sonar_CTSE'
+      organization: 'pasindu-madhuwantha'
+      scannerMode: 'MSBuild'
+      projectKey: 'Pasindu-Madhuwantha_E-Commerce-Deployment'
+      projectName: 'E-Commerce-Deployment'
+      
+  - task: SonarCloudAnalyze@1
+    inputs:
+      jdkversion: 'JAVA_HOME_17_X64'
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+
 - job: Save_Repo_As_Artifact
   displayName: 'Save repository as artifact'
   pool:
     vmImage: 'ubuntu-latest'
   steps:
   - checkout: self
+  
   - task: CopyFiles@2
     inputs:
-     targetFolder: '$(Build.ArtifactStagingDirectory)'    
+      targetFolder: '$(Build.ArtifactStagingDirectory)'    
 
   - task: PublishBuildArtifacts@1    
     displayName: 'Publish Artifact: drop'
     inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
-
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
