@@ -32,9 +32,25 @@ jobs:
   steps:
   - checkout: self
   
+  # Download the config.env file from Azure DevOps library
+  - task: DownloadSecureFile@1
+    displayName: 'Download config.env file'
+    inputs:
+      secureFile: 'config.env'  # Name of the secure file in the Azure DevOps library
+
+  # Copy all files and folders to artifact staging directory
   - task: CopyFiles@2
     inputs:
-      targetFolder: '$(Build.ArtifactStagingDirectory)'    
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  # Copy config.env file to the backend/config directory in artifact
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(DownloadSecureFile.secureFilePath)'
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/backend/config'
 
   - task: PublishBuildArtifacts@1    
     displayName: 'Publish Artifact: drop'
