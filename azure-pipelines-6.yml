@@ -48,8 +48,8 @@ jobs:
   # Copy config.env file to the backend/config directory in artifact
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '$(DownloadSecureFile.secureFilePath)'
-      Contents: '**'
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: 'config.env'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/backend/config'
 
   # Ensure the config.env file is there in the artifact directory
