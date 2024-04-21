@@ -31,7 +31,7 @@ jobs:
   dependsOn: Sonar_Cloud_Analysis
   steps:
   - checkout: self
-  
+
   # Download the config.env file from Azure DevOps library
   - task: DownloadSecureFile@1
     displayName: 'Download config.env file'
@@ -51,6 +51,10 @@ jobs:
       SourceFolder: '$(DownloadSecureFile.secureFilePath)'
       Contents: '**'
       TargetFolder: '$(Build.ArtifactStagingDirectory)/backend/config'
+
+  # Ensure the config.env file is there in the artifact directory
+  - script: ls $(Build.ArtifactStagingDirectory)/backend/config
+    displayName: 'Check if config.env is in the artifact directory'
 
   - task: PublishBuildArtifacts@1    
     displayName: 'Publish Artifact: drop'
