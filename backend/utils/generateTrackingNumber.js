@@ -2,7 +2,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const generateRandomTrackingNumber = () => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXY';
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const randomBytes = crypto.randomBytes(4); // Using 4 bytes for randomness This enhances the unpredictability of the generated tracking numbers.
     let result = '';
     for (let i = 0; i < 4; i++) {
